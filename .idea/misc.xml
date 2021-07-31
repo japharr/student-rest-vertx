@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SbtLocalSettings">
+    <option name="projectSyncType">
+      <map>
+        <entry key="$USER_HOME$/Projects/play/administration" value="PREVIEW" />
+        <entry key="$USER_HOME$/Projects/play/merchants" value="PREVIEW" />
+        <entry key="$USER_HOME$/Projects/play/play-scala-seed" value="PREVIEW" />
+      </map>
+    </option>
+  </component>
+  <component name="ScalaSbtSettings">
+    <option name="customVMPath" />
+  </component>
+</project>
