@@ -41,17 +41,20 @@ public class StudentRouterHandler {
 
     public void getOne(RoutingContext routingContext) {
         try {
-            Long id = Long.parseLong(routingContext.pathParam("id"));
+            Long id = Long.valueOf(routingContext.pathParam("id"));
             if(!studentMap.containsKey(id)) {
                 routingContext.response().setStatusCode(HttpResponseStatus.NOT_FOUND.code())
+                    .putHeader("content-type", "application/json; charset=utf-8")
                     .end(Json.encodePrettily(new JsonObject()
                         .put("errorMessage", "Student of id not found")));
             } else {
                 routingContext.response()
+                    .putHeader("content-type", "application/json; charset=utf-8")
                     .end(Json.encodePrettily(studentMap.get(id)));
             }
         } catch(NumberFormatException e){
             routingContext.response().setStatusCode(400)
+                .putHeader("content-type", "application/json; charset=utf-8")
                 .end(Json.encodePrettily(new JsonObject()
                     .put("errorMessage", "path parameter can only be integer/long")));
         }
@@ -85,12 +88,14 @@ public class StudentRouterHandler {
                     routingContext.end(Json.encodePrettily(student));
                 } catch(NumberFormatException e){
                     routingContext.response().setStatusCode(400)
+                        .putHeader("content-type", "application/json; charset=utf-8")
                         .end(Json.encodePrettily(new JsonObject()
                             .put("errorMessage", "path parameter can only be integer/long")));
                 }
             } else {
                 ValidationException ex = (ValidationException) ar.cause();
                 routingContext.response().setStatusCode(400)
+                    .putHeader("content-type", "application/json; charset=utf-8")
                     .end(Json.encodePrettily(new JsonObject()
                         .put("errorMessage", ex.getMessage())));
             }
