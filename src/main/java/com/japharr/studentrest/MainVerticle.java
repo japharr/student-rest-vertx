@@ -3,7 +3,6 @@ package com.japharr.studentrest;
 import com.japharr.studentrest.entity.Student;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.CompositeFuture;
 import io.vertx.core.Promise;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.Json;
@@ -34,6 +33,8 @@ public class MainVerticle extends AbstractVerticle {
         Schema schema = objectSchema()
             .requiredProperty("firstName", stringSchema())
             .requiredProperty("lastName", stringSchema())
+            .property("age", intSchema())
+            .optionalProperty("course", stringSchema())
             .build(parser);
 
         // Shows a Welcome Info
@@ -45,6 +46,7 @@ public class MainVerticle extends AbstractVerticle {
             .method(HttpMethod.GET)
             .handler(r -> r.end(Json.encodePrettily(studentMap.values())));
 
+        // Fetch a student record by id
         router.route("/students/:id")
             .method(HttpMethod.GET)
             .handler(r -> {
@@ -65,6 +67,7 @@ public class MainVerticle extends AbstractVerticle {
                 }
             });
 
+        // Create a new student record by id
         router.route("/students")
             .method(HttpMethod.POST)
             .handler(r -> {
@@ -84,6 +87,7 @@ public class MainVerticle extends AbstractVerticle {
                 });
             });
 
+        // Update an existing student record by id
         router.route("/students/:id")
             .method(HttpMethod.PUT)
             .handler(r -> {
