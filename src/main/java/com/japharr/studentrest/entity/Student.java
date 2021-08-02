@@ -1,16 +1,22 @@
 package com.japharr.studentrest.entity;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Student {
-    private Long id;
+    private static final AtomicInteger COUNTER = new AtomicInteger();
+
+    private final int id;
     private String firstName;
     private String lastName;
     private Integer age;
     private String course;
 
-    public Student() {}
+    public Student() {
+        this.id = COUNTER.getAndIncrement();
+    }
 
-    public Student(Long id, String firstName, String lastName, Integer age, String course) {
-        this.id = id;
+    public Student(String firstName, String lastName, Integer age, String course) {
+        this.id = COUNTER.getAndIncrement();
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -18,22 +24,20 @@ public class Student {
     }
 
     public Student(String firstName, String lastName, Integer age) {
+        this.id = COUNTER.getAndIncrement();
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
     }
 
     public Student(String firstName, Integer age) {
+        this.id = COUNTER.getAndIncrement();
         this.firstName = firstName;
         this.age = age;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstName() {

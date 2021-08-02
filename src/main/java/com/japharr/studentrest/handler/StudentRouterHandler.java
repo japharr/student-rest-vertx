@@ -15,7 +15,7 @@ import static io.vertx.json.schema.common.dsl.Schemas.*;
 
 public class StudentRouterHandler {
     private final Schema schema;
-    private final Map<Long, Student> studentMap = new LinkedHashMap<>();
+    private final Map<Integer, Student> studentMap = new LinkedHashMap<>();
 
     private StudentRouterHandler(Vertx vertx) {
         SchemaParser parser = SchemaParser.createDraft201909SchemaParser(
@@ -26,10 +26,18 @@ public class StudentRouterHandler {
             .requiredProperty("lastName", stringSchema())
             .property("age", intSchema())
             .build(parser);
+        initData();
     }
 
     public static StudentRouterHandler init(Vertx vertx) {
         return new StudentRouterHandler(vertx);
+    }
+
+    private void initData() {
+        Student johnThomas = new Student("John", "Thomas", 12, "Computer Science");
+        studentMap.put(johnThomas.getId(), johnThomas);
+        Student harryPorter = new Student("Harry", "Porter", 10, "Accounting");
+        studentMap.put(harryPorter.getId(), harryPorter);
     }
 
     public void getAll(RoutingContext routingContext) {
@@ -40,7 +48,7 @@ public class StudentRouterHandler {
 
     public void getOne(RoutingContext routingContext) {
         try {
-            Long id = Long.valueOf(routingContext.pathParam("id"));
+            Integer id = Integer.valueOf(routingContext.pathParam("id"));
             if(!studentMap.containsKey(id)) {
                 routingContext.response().setStatusCode(HttpResponseStatus.NOT_FOUND.code())
                     .putHeader("content-type", "application/json; charset=utf-8")
@@ -62,10 +70,8 @@ public class StudentRouterHandler {
     public void create(RoutingContext routingContext) {
         schema.validateAsync(routingContext.getBodyAsJson()).onComplete(ar -> {
             if (ar.succeeded()) {
-                Student student = routingContext.getBodyAsJson().mapTo(Student.class);
-                long id =studentMap.size() + 1L;
-                student.setId(id);
-                studentMap.put(id, student);
+                Student student = Json.decodeValue(routingContext.getBodyAsString(), Student.class);
+                studentMap.put(student.getId(), student);
                 routingContext
                     .response().setStatusCode(HttpResponseStatus.CREATED.code())
                     .end(Json.encodePrettily(student));
@@ -81,12 +87,25 @@ public class StudentRouterHandler {
     public void update(RoutingContext routingContext) {
         schema.validateAsync(routingContext.getBodyAsJson()).onComplete(ar -> {
             if (ar.succeeded()) {
-                Student student = routingContext.getBodyAsJson().mapTo(Student.class);
+                Student updated = routingContext.getBodyAsJson().mapTo(Student.class);
                 try {
-                    Long id = Long.parseLong(routingContext.pathParam("id"));
-                    student.setId(id);
-                    studentMap.put(id, student);
-                    routingContext.end(Json.encodePrettily(student));
+                    Integer id = Integer.parseInt(routingContext.pathParam("id"));
+                    Student student = studentMap.get(id);
+                    if(student != null) {
+                        student.setFirstName(updated.getFirstName());
+                        student.setLastName(updated.getLastName());
+                        student.setAge(updated.getAge());
+                        student.setCourse(updated.getCourse());
+                        routingContext
+                            .response()
+                            .putHeader("content-type", "application/json; charset=utf-8")
+                            .end(Json.encodePrettily(student));
+                    } else {
+                        routingContext.response().setStatusCode(HttpResponseStatus.NOT_FOUND.code())
+                            .putHeader("content-type", "application/json; charset=utf-8")
+                            .end(Json.encodePrettily(new JsonObject()
+                                .put("errorMessage", "Student of id not found")));
+                    }
                 } catch(NumberFormatException e){
                     routingContext.response().setStatusCode(400)
                         .putHeader("content-type", "application/json; charset=utf-8")
@@ -105,7 +124,7 @@ public class StudentRouterHandler {
 
     public void delete(RoutingContext routingContext) {
         try {
-            Long id = Long.valueOf(routingContext.pathParam("id"));
+            Integer id = Integer.valueOf(routingContext.pathParam("id"));
             if(!studentMap.containsKey(id)) {
                 routingContext.response().setStatusCode(HttpResponseStatus.NOT_FOUND.code())
                     .putHeader("content-type", "application/json; charset=utf-8")
