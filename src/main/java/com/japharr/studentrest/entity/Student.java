@@ -17,6 +17,17 @@ public class Student {
         this.course = course;
     }
 
+    public Student(String firstName, String lastName, Integer age) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+    }
+
+    public Student(String firstName, Integer age) {
+        this.firstName = firstName;
+        this.age = age;
+    }
+
     public Long getId() {
         return id;
     }

@@ -10,10 +10,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: io.vertx:vertx-web:4.1.2" level="project" />
-    <orderEntry type="library" name="Maven: io.vertx:vertx-web-common:4.1.2" level="project" />
-    <orderEntry type="library" name="Maven: io.vertx:vertx-auth-common:4.1.2" level="project" />
-    <orderEntry type="library" name="Maven: io.vertx:vertx-bridge-common:4.1.2" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-core:4.1.2" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-common:4.1.65.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.65.Final" level="project" />
@@ -27,17 +23,26 @@
     <orderEntry type="library" name="Maven: io.netty:netty-resolver:4.1.65.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-resolver-dns:4.1.65.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-codec-dns:4.1.65.Final" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.11.4" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-web:4.1.2" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-web-common:4.1.2" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-auth-common:4.1.2" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-bridge-common:4.1.2" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-web-validation:4.1.2" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-json-schema:4.1.2" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-web-client:4.1.2" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: io.netty:netty-resolver-dns-native-macos:osx-x86_64:4.1.59.Final" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: io.netty:netty-transport-native-unix-common:4.1.59.Final" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.11.4" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.11.4" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.11.4" level="project" />
+    <orderEntry type="library" name="Maven: am.ik.yavi:yavi:0.8.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: io.vertx:vertx-junit5:4.1.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-params:5.7.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-api:5.7.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apiguardian:apiguardian-api:1.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.opentest4j:opentest4j:1.2.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-commons:1.7.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.assertj:assertj-core:3.8.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-engine:5.7.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-engine:1.7.0" level="project" />
   </component>

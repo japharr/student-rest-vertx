@@ -33,6 +33,10 @@ public class MainVerticle extends AbstractVerticle {
         router.put("/students/:id")
             .handler(routerHandler::update);
 
+        // Update an existing student record by id
+        router.delete("/students/:id")
+            .handler(routerHandler::delete);
+
         vertx.createHttpServer()
             .requestHandler(router)
             .listen(
@@ -40,7 +44,7 @@ public class MainVerticle extends AbstractVerticle {
                 http -> {
                     if (http.succeeded()) {
                         startPromise.complete();
-                        System.out.println("HTTP server started on port 8088");
+                        System.out.println("HTTP server started on port 8088: " + http.result().actualPort());
                     } else {
                         startPromise.fail(http.cause());
                     }

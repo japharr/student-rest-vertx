@@ -25,7 +25,6 @@ public class StudentRouterHandler {
             .requiredProperty("firstName", stringSchema())
             .requiredProperty("lastName", stringSchema())
             .property("age", intSchema())
-            .optionalProperty("course", stringSchema())
             .build(parser);
     }
 
@@ -67,12 +66,14 @@ public class StudentRouterHandler {
                 long id =studentMap.size() + 1L;
                 student.setId(id);
                 studentMap.put(id, student);
-                routingContext.end(Json.encodePrettily(student));
+                routingContext
+                    .response().setStatusCode(HttpResponseStatus.CREATED.code())
+                    .end(Json.encodePrettily(student));
             } else {
                 ValidationException ex = (ValidationException) ar.cause();
                 routingContext.response().setStatusCode(400)
                     .end(Json.encodePrettily(new JsonObject()
-                        .put("errorMessage", ex.getMessage())));
+                        .put("errorMessage", ex.inputScope().toURI() +": "+ ex.getMessage())));
             }
         });
     }
@@ -100,5 +101,25 @@ public class StudentRouterHandler {
                         .put("errorMessage", ex.getMessage())));
             }
         });
+    }
+
+    public void delete(RoutingContext routingContext) {
+        try {
+            Long id = Long.valueOf(routingContext.pathParam("id"));
+            if(!studentMap.containsKey(id)) {
+                routingContext.response().setStatusCode(HttpResponseStatus.NOT_FOUND.code())
+                    .putHeader("content-type", "application/json; charset=utf-8")
+                    .end(Json.encodePrettily(new JsonObject()
+                        .put("errorMessage", "Student of id not found")));
+            } else {
+                studentMap.remove(id);
+                routingContext.response().setStatusCode(204).end();
+            }
+        } catch(NumberFormatException e){
+            routingContext.response().setStatusCode(400)
+                .putHeader("content-type", "application/json; charset=utf-8")
+                .end(Json.encodePrettily(new JsonObject()
+                    .put("errorMessage", "path parameter can only be integer/long")));
+        }
     }
 }
