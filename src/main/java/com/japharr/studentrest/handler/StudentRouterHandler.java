@@ -1,4 +1,4 @@
-package com.japharr.studentrest;
+package com.japharr.studentrest.handler;
 
 import com.japharr.studentrest.entity.Student;
 import io.netty.handler.codec.http.HttpResponseStatus;

@@ -1,5 +1,6 @@
 package com.japharr.studentrest;
 
+import com.japharr.studentrest.handler.StudentRouterHandler;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.ext.web.Router;
