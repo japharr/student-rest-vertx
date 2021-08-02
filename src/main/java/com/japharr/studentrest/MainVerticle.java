@@ -41,7 +41,7 @@ public class MainVerticle extends AbstractVerticle {
         vertx.createHttpServer()
             .requestHandler(router)
             .listen(
-                config().getInteger("http.port", 8088),
+                config().getInteger("http.port", 8080),
                 http -> {
                     if (http.succeeded()) {
                         startPromise.complete();
