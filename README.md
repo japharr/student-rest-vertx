@@ -25,7 +25,7 @@ The application is packaged as a _fat jar_, using the
 Once packaged, just launch the _fat jar_ as follows:
 
 ```
-java -jar target/my-first-app-1.0-SNAPSHOT-fat.jar
+java -jar target/student-rest-1.0.0-SNAPSHOT-fat.jar
 ```
 
 Then, open a browser to http://localhost:8080.
