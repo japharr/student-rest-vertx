@@ -6,6 +6,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/annotations" isTestSource="false" generated="true" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -31,6 +32,10 @@
     <orderEntry type="library" name="Maven: io.vertx:vertx-web-validation:4.1.2" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-json-schema:4.1.2" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-web-client:4.1.2" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-sql-client:4.1.2" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-sql-client-templates:4.1.2" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-pg-client:4.1.2" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-codegen:processor:4.1.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: io.netty:netty-resolver-dns-native-macos:osx-x86_64:4.1.59.Final" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: io.netty:netty-transport-native-unix-common:4.1.59.Final" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.11.4" level="project" />
