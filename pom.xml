@@ -21,7 +21,7 @@
     <junit-jupiter.version>5.7.0</junit-jupiter.version>
     <assertj-core.version>3.8.0</assertj-core.version>
 
-    <main.verticle>com.japharr.studentrest.MainVerticle</main.verticle>
+    <main.verticle>com.japharr.studentrest.AuthVerticle</main.verticle>
     <launcher.class>io.vertx.core.Launcher</launcher.class>
 
     <maven.compiler.source>11</maven.compiler.source>
@@ -80,6 +80,21 @@
       <groupId>io.vertx</groupId>
       <artifactId>vertx-codegen</artifactId>
       <classifier>processor</classifier>
+    </dependency>
+
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-auth-sql-client</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-auth-oauth2</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-auth-jwt</artifactId>
     </dependency>
 
     <dependency>

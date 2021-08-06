@@ -9,6 +9,16 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.JWTOptions;
+import io.vertx.ext.auth.KeyStoreOptions;
+import io.vertx.ext.auth.authentication.AuthenticationProvider;
+import io.vertx.ext.auth.jwt.JWTAuth;
+import io.vertx.ext.auth.jwt.JWTAuthOptions;
+import io.vertx.ext.auth.oauth2.OAuth2Options;
+import io.vertx.ext.auth.oauth2.providers.OpenIDConnectAuth;
+import io.vertx.ext.auth.sqlclient.SqlAuthentication;
+import io.vertx.ext.auth.sqlclient.SqlAuthenticationOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.pgclient.PgConnectOptions;
@@ -52,6 +62,39 @@ public class MainVerticle extends AbstractVerticle {
         this.pool = Pool.pool(vertx, options, new PoolOptions().setMaxSize(4));
 
         studentService = StudentService.init(pool);
+
+        SqlAuthenticationOptions authOptions = new SqlAuthenticationOptions();
+        AuthenticationProvider authenticationProvider = SqlAuthentication.create(pool, authOptions);
+
+        JWTAuthOptions config = new JWTAuthOptions()
+            .setKeyStore(new KeyStoreOptions()
+                .setPath("keystore.jks")
+                .setPassword("secret"));
+
+//        JWTAuth provider = JWTAuth.create(vertx, config);
+//        String token = provider.generateToken(
+//            new JsonObject().put("sub", "paulo"), new JWTOptions());
+//        System.out.println("token: " + token);
+
+        // the setup failed.
+        OpenIDConnectAuth.discover(
+            vertx,
+            new OAuth2Options()
+                //.setClientId("clientId")
+                //.setClientSecret("clientSecret")
+                //.setJwkPath()
+                //.setSite("http://localhost:7070/auth/realms/myrealm/protocol/openid-connect/certs")
+                .setClientId("myclient")
+                .setSite("http://localhost:7070/auth/realms/myrealm")
+                //.setJwkPath("http://localhost:7070/auth/realms/myrealm/.well-known/openid-configuration"))
+                .setJwkPath("http://localhost:7070/auth/realms/myrealm/protocol/openid-connect/certs"))
+            .onSuccess(oauth2 -> {
+                System.out.println("oauth2 connected: ");
+                // the setup call succeeded.
+                // at this moment your auth is ready to use and
+                // google signature keys are loaded so tokens can be decoded and verified.
+            })
+            .onFailure(Throwable::printStackTrace);
 
         initData((r) -> {
             startWebApp((http) ->

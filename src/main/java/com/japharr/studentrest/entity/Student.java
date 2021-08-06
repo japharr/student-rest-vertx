@@ -1,6 +1,7 @@
 package com.japharr.studentrest.entity;
 
 import io.vertx.codegen.annotations.DataObject;
+import io.vertx.codegen.format.SnakeCase;
 import io.vertx.core.json.JsonObject;
 import io.vertx.sqlclient.templates.annotations.Column;
 import io.vertx.sqlclient.templates.annotations.ParametersMapped;
@@ -10,8 +11,8 @@ import io.vertx.sqlclient.templates.annotations.TemplateParameter;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @DataObject
-@RowMapped
-@ParametersMapped()
+@RowMapped(formatter = SnakeCase.class)
+@ParametersMapped(formatter = SnakeCase.class)
 public class Student {
     //private static final AtomicInteger COUNTER = new AtomicInteger();
 
