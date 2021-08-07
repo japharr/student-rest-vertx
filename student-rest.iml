@@ -7,6 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/annotations" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -39,6 +40,10 @@
     <orderEntry type="library" name="Maven: io.vertx:vertx-auth-sql-client:4.1.2" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-auth-oauth2:4.1.2" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-auth-jwt:4.1.2" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-config:4.1.2" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-config-yaml:4.1.2" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.11.4" level="project" />
+    <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.26" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: io.netty:netty-resolver-dns-native-macos:osx-x86_64:4.1.59.Final" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: io.netty:netty-transport-native-unix-common:4.1.59.Final" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.11.4" level="project" />

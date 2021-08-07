@@ -1,0 +1,5 @@
+http:
+  port: 3000
+
+jwt:
+  issuer: http://localhost:7070/auth/realms/myrealm

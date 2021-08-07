@@ -1,10 +1,14 @@
 package com.japharr.studentrest;
 
 import io.netty.handler.codec.http.HttpHeaderValues;
+import io.vertx.config.ConfigRetriever;
+import io.vertx.config.ConfigRetrieverOptions;
+import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.*;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.JWTOptions;
 import io.vertx.ext.auth.authorization.PermissionBasedAuthorization;
@@ -27,21 +31,22 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class AuthVerticle extends AbstractVerticle {
-    private WebClient webClient;
-
     private JWTAuth jwtAuth;
 
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
-        webClient = WebClient.create(vertx);
-
-        initJwtAuth(r -> {
-            if(r.succeeded()) {
-                this.jwtAuth = r.result();
-                startWebApp((http) ->
-                    completeStartup(http, startPromise)
-                );
-            }
+        initConfig(rc -> {
+           if(rc.succeeded()) {
+               var config = rc.result();
+               initJwtAuth(config, r -> {
+                   if(r.succeeded()) {
+                       this.jwtAuth = r.result();
+                       startWebApp(config, (http) ->
+                           completeStartup(http, startPromise)
+                       );
+                   }
+               });
+           }
         });
     }
 
@@ -53,7 +58,7 @@ public class AuthVerticle extends AbstractVerticle {
         }
     }
 
-    private void startWebApp(Handler<AsyncResult<HttpServer>> next) {
+    private void startWebApp(JsonObject config, Handler<AsyncResult<HttpServer>> next) {
         Router router = Router.router(vertx);
         router.route().handler(BodyHandler.create());
 
@@ -71,19 +76,40 @@ public class AuthVerticle extends AbstractVerticle {
             .handler(this::handleUserData);
             //.handler(r -> r.end("Hello APIs"));
 
+        var httpConfig = config.getJsonObject("http");
+
         vertx.createHttpServer()
             .requestHandler(router)
             .listen(
-                config().getInteger("http.port", 8080),
+                httpConfig.getInteger("port", 8080),
                 next
             );
     }
 
-    public void initJwtAuth(Handler<AsyncResult<JWTAuth>> handler) {
-        webClient = WebClient.create(vertx);
+    private void initConfig(Handler<AsyncResult<JsonObject>> handler) {
+        // load configuration from config.yaml file
+        var yamlConfigOpts = new ConfigStoreOptions() //
+            .setFormat("yaml") //
+            .setType("file") //
+            .setConfig(new JsonObject().put("path", "config.yaml"));
 
-        var issuer = "http://localhost:7070/auth/realms/myrealm";
-        var jwksUri = URI.create("http://localhost:7070/auth/realms/myrealm/protocol/openid-connect/certs");
+        var configRetrieverOpts = new ConfigRetrieverOptions() //
+            .addStore(yamlConfigOpts);
+
+        ConfigRetriever.create(vertx, configRetrieverOpts)
+            .getConfig(handler);
+    }
+
+    public void initJwtAuth(JsonObject config, Handler<AsyncResult<JWTAuth>> handler) {
+        var webClient = WebClient.create(vertx);
+
+        var jwtConfig = config.getJsonObject("jwt");
+        var issuer = jwtConfig.getString("issuer");
+        var issuerUri = URI.create(issuer);
+
+        // derive JWKS uri from Keycloak issuer URI
+        var jwksUri = URI.create(jwtConfig.getString("jwksUri", String.format("%s://%s:%d%s",
+            issuerUri.getScheme(), issuerUri.getHost(), issuerUri.getPort(), issuerUri.getPath() + "/protocol/openid-connect/certs")));
 
         webClient.get(jwksUri.getPort(), jwksUri.getHost(), jwksUri.getPath())
             .as(BodyCodec.jsonObject())
